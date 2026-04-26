@@ -916,12 +916,24 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
   border:1px solid var(--border-2);color:var(--ink);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;backdrop-filter:blur(8px);font-size:18px;
-  transition:all 0.3s var(--easing);
+  transition:opacity 0.35s var(--easing), background 0.3s var(--easing), transform 0.35s var(--easing), border-color 0.3s var(--easing);
   border-radius:50%;
 }
-.nav-btn:hover{background:var(--lion);border-color:var(--lion);color:var(--ink);transform:translateY(-2px)}
-.nav-btn:disabled{opacity:0.3;cursor:default;transform:none}
-.nav-btn:disabled:hover{background:rgba(20,18,16,0.7);border-color:var(--border-2)}
+.nav-btn:hover:not(:disabled){background:var(--lion);border-color:var(--lion);color:var(--ink)}
+.nav-btn:disabled{opacity:0.12;cursor:default;pointer-events:none}
+/* Desktop: setas flutuam nas laterais da tela, quase invisíveis até o hover */
+@media (min-width:769px){
+  .nav-btn{
+    position:fixed;top:50%;z-index:85;
+    opacity:0.16;
+  }
+  .nav-btn.prev{left:16px;transform:translateY(-50%)}
+  .nav-btn.next{right:16px;transform:translateY(-50%)}
+  .nav-btn:hover:not(:disabled){opacity:1;background:var(--lion);border-color:var(--lion)}
+  .nav-btn.prev:hover:not(:disabled){transform:translateY(-50%) scale(1.1)}
+  .nav-btn.next:hover:not(:disabled){transform:translateY(-50%) scale(1.1)}
+  .nav-btn:disabled{opacity:0.04}
+}
 .nav-dots{display:flex;gap:6px;align-items:center;padding:0 16px}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-3);opacity:0.4;cursor:pointer;transition:all 0.3s var(--easing)}
 .dot:hover{opacity:0.8}
@@ -1256,12 +1268,19 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
     width:calc(100% - 28px);max-width:380px;
     justify-content:space-between;
     gap:0;
-    background:rgba(13,11,9,0.85);backdrop-filter:blur(12px);
+    background:rgba(13,11,9,0.88);backdrop-filter:blur(12px);
     border:1px solid var(--border-2);border-radius:30px;
     padding:6px;
   }
-  .nav-btn{width:40px;height:40px;font-size:16px;border-radius:50%;border:none;background:transparent}
-  .nav-btn:hover{background:var(--lion);transform:none}
+  /* Sobrescreve o fixed do desktop — botões voltam ao fluxo normal no mobile */
+  .nav-btn{
+    position:static !important;top:auto !important;
+    transform:none !important;opacity:1 !important;
+    width:40px;height:40px;font-size:16px;border-radius:50%;border:none;background:transparent;
+    transition:background 0.2s var(--easing);
+  }
+  .nav-btn:disabled{opacity:0.28 !important;pointer-events:none}
+  .nav-btn:hover:not(:disabled){background:var(--lion);transform:none !important}
   .nav-dots{display:none}
   .mobile-counter{
     display:flex;align-items:center;gap:8px;
@@ -2807,8 +2826,15 @@ slides.forEach((s,i)=>{
   d.addEventListener('click',()=>go(i));
   dots.appendChild(d);
 });
+// Mobile counter (slide X / total)
+const mobileCounter = document.createElement('div');
+mobileCounter.className = 'mobile-counter';
+mobileCounter.id = 'mobileCounter';
+mobileCounter.innerHTML = `<span id="mobCur">01</span><span style="color:var(--ink-3);font-weight:300">&nbsp;/&nbsp;</span><span style="color:var(--ink-3);font-weight:400">${String(total).padStart(2,'0')}</span>`;
+
 navControls.appendChild(prevBtn);
 navControls.appendChild(dots);
+navControls.appendChild(mobileCounter);
 navControls.appendChild(nextBtn);
 
 prevBtn.addEventListener('click',()=>{stopAutoplay();go(current-1)});
@@ -2984,6 +3010,8 @@ function go(i){
 
   // update UI
   counter.textContent=String(i+1).padStart(2,'0');
+  const mobCur = document.getElementById('mobCur');
+  if(mobCur) mobCur.textContent = String(i+1).padStart(2,'0');
   progress.style.setProperty('--p',((i+1)/total*100)+'%');
   document.querySelectorAll('.dot').forEach((d,k)=>{
     d.classList.toggle('active',k===i);
