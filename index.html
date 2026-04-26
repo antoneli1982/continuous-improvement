@@ -162,7 +162,7 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
   color:var(--ink);
 }
 .cover-headline em{font-style:italic;color:var(--gold)}
-.cover-headline .line{display:block;overflow:hidden}
+.cover-headline .line{display:block;overflow:hidden;padding-bottom:0.12em;padding-top:0.04em}
 .cover-headline .line span{
   display:block;transform:translateY(110%);
   transition:transform 1.1s var(--easing-strong);
@@ -912,11 +912,12 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
   display:flex;gap:14px;z-index:80;
 }
 .nav-btn{
-  width:44px;height:44px;background:rgba(20,18,16,0.7);
+  width:48px;height:48px;background:rgba(20,18,16,0.8);
   border:1px solid var(--border-2);color:var(--ink);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;backdrop-filter:blur(8px);font-size:18px;
   transition:all 0.3s var(--easing);
+  border-radius:50%;
 }
 .nav-btn:hover{background:var(--lion);border-color:var(--lion);color:var(--ink);transform:translateY(-2px)}
 .nav-btn:disabled{opacity:0.3;cursor:default;transform:none}
@@ -1486,7 +1487,7 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
   position:relative;
 }
 .thanks-headline em{font-style:italic;color:var(--gold);font-weight:300}
-.thanks-headline .word{display:block;overflow:hidden;padding-bottom:0.05em}
+.thanks-headline .word{display:block;overflow:hidden;padding-bottom:0.18em;padding-top:0.06em}
 .thanks-headline .word span{
   display:block;transform:translateY(110%);
   transition:transform 1.4s var(--easing-strong);
@@ -2746,7 +2747,7 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
     <div class="swipe-text">deslize para navegar</div>
   </div>
   <button class="menu-toggle" id="menuToggle" title="Sumário">≡</button>
-  <button class="autoplay-toggle" id="autoplayToggle" title="Auto-play (A)">▶</button>
+  <button class="autoplay-toggle" id="autoplayToggle" title="Auto-play (A)" style="display:none">▶</button>
   <aside class="menu" id="menu"></aside>
 
   <!-- Confetti canvas para easter egg -->
@@ -2794,9 +2795,9 @@ function showToast(msg, dur=1400){
 
 // === Build navigation ===
 const prevBtn = document.createElement('button');
-prevBtn.className='nav-btn prev';prevBtn.innerHTML='←';prevBtn.title='Anterior';
+prevBtn.className='nav-btn prev';prevBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 14L6 9L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';prevBtn.title='Anterior';
 const nextBtn = document.createElement('button');
-nextBtn.className='nav-btn next';nextBtn.innerHTML='→';nextBtn.title='Próximo';
+nextBtn.className='nav-btn next';nextBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';nextBtn.title='Próximo';
 
 dots.className='nav-dots';
 slides.forEach((s,i)=>{
@@ -2818,12 +2819,7 @@ hint.innerHTML=`<kbd>←</kbd> <kbd>→</kbd> navegar &nbsp;·&nbsp; <kbd>F</kbd
 setTimeout(()=>hint.style.opacity='0', 5000);
 document.addEventListener('mousemove', ()=>{hint.style.opacity=''});
 
-// === Autoplay toggle button ===
-const autoplayBtn = document.createElement('button');
-autoplayBtn.className = 'autoplay-toggle';
-autoplayBtn.innerHTML = '▶';
-autoplayBtn.title = 'Auto-play (P)';
-document.querySelector('.deck').appendChild(autoplayBtn);
+const autoplayBtn = document.getElementById('autoplayToggle');
 
 function startAutoplay(){
   stopAutoplay();
@@ -3007,10 +3003,7 @@ function go(i){
     isAnimating=false;
   },420);
   
-  // CONFETTI no slide final!
-  if(i === total - 1){
-    setTimeout(launchConfetti, 800);
-  }
+  // confetti removido
 }
 
 // === Keyboard ===
