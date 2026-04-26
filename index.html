@@ -90,13 +90,16 @@ body{cursor:default}
 .slides{position:absolute;inset:0;z-index:10}
 .slide{
   position:absolute;inset:0;
-  padding:80px 88px 96px;
+  padding:72px 88px 116px;
   display:flex;flex-direction:column;
   opacity:0;visibility:hidden;
   transform:translateY(24px) scale(0.985);
   transition:opacity 0.7s var(--easing), transform 0.9s var(--easing-strong), visibility 0s linear 0.7s;
-  overflow:hidden;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:none;
 }
+.slide::-webkit-scrollbar{display:none}
 .slide.active{
   opacity:1;visibility:visible;transform:translateY(0) scale(1);
   transition:opacity 0.6s var(--easing) 0.05s, transform 0.9s var(--easing-strong), visibility 0s linear 0s;
@@ -107,7 +110,7 @@ body{cursor:default}
   display:inline-flex;align-items:center;gap:10px;
   font-family:var(--mono);font-size:11px;font-weight:500;
   letter-spacing:0.32em;text-transform:uppercase;color:var(--lion-bright);
-  margin-bottom:32px;
+  margin-bottom:20px;
 }
 .section-tag::before{content:"";width:24px;height:1px;background:var(--lion-bright)}
 
@@ -141,13 +144,13 @@ h1.slide-title em{font-style:italic;color:var(--gold)}
 h1.slide-title{
   font-family:var(--display);font-size:clamp(40px, 4.6vw, 76px);
   font-weight:200;line-height:1.04;letter-spacing:-0.025em;color:var(--ink);
-  margin-bottom:18px;max-width:18ch;
+  margin-bottom:12px;max-width:18ch;
 }
 h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
 .subtitle{
   font-family:var(--display);font-style:italic;font-size:clamp(17px, 1.3vw, 22px);
   font-weight:300;color:var(--ink-2);max-width:62ch;line-height:1.4;
-  margin-bottom:36px;
+  margin-bottom:24px;
 }
 
 /* ===== SLIDE 1 — CAPA ===== */
@@ -208,18 +211,18 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
 @keyframes slowRotate{to{transform:rotate(360deg)}}
 
 /* ===== SLIDE 2 — SUMÁRIO EXECUTIVO ===== */
-.layout-2col{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;flex:1;align-items:start}
+.layout-2col{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;flex:1;align-items:start}
 .exec-text p{
-  font-size:16px;line-height:1.7;color:var(--ink-2);
-  margin-bottom:20px;max-width:54ch;
+  font-size:14px;line-height:1.65;color:var(--ink-2);
+  margin-bottom:14px;max-width:54ch;
 }
 .exec-text p strong{color:var(--ink);font-weight:600}
 
-.kpi-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.kpi-grid{display:grid;grid-template-columns:1fr;gap:8px}
 .kpi{
   background:linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
   border:1px solid var(--border);border-left:3px solid var(--lion);
-  padding:18px 24px;position:relative;overflow:hidden;
+  padding:12px 20px;position:relative;overflow:hidden;
   transition:transform 0.4s var(--easing), border-color 0.4s var(--easing);
 }
 .kpi:hover{transform:translateX(4px);border-left-color:var(--gold)}
@@ -228,14 +231,14 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
   background:radial-gradient(circle, rgba(193,20,24,0.18), transparent 70%);
 }
 .kpi .num{
-  font-family:var(--display);font-size:42px;font-weight:600;line-height:1;
-  color:var(--ink);letter-spacing:-0.02em;margin-bottom:4px;
+  font-family:var(--display);font-size:34px;font-weight:600;line-height:1;
+  color:var(--ink);letter-spacing:-0.02em;margin-bottom:3px;
   display:flex;align-items:baseline;gap:4px;
   font-feature-settings:"tnum";
 }
 .kpi .num em{color:var(--lion-bright);font-style:normal}
-.kpi .num small{font-size:16px;color:var(--ink-3);font-family:var(--sans)}
-.kpi .lbl{font-size:12.5px;color:var(--ink-2);letter-spacing:0.01em}
+.kpi .num small{font-size:14px;color:var(--ink-3);font-family:var(--sans)}
+.kpi .lbl{font-size:12px;color:var(--ink-2);letter-spacing:0.01em}
 
 /* ===== SLIDE 3 — JORNADA ===== */
 .journey{display:flex;gap:24px;flex:1;align-items:stretch;margin-top:16px}
@@ -908,7 +911,7 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
 
 /* ===== NAVIGATION ===== */
 .nav-controls{
-  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
   display:flex;gap:14px;z-index:80;
 }
 .nav-btn{
@@ -921,10 +924,10 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
 }
 .nav-btn:hover:not(:disabled){background:var(--lion);border-color:var(--lion);color:var(--ink)}
 .nav-btn:disabled{opacity:0.12;cursor:default;pointer-events:none}
-/* Desktop: setas flutuam nas laterais da tela, quase invisíveis até o hover */
+/* Desktop: setas flutuam nas laterais da tela, posicionadas no terço superior */
 @media (min-width:769px){
   .nav-btn{
-    position:fixed;top:50%;z-index:85;
+    position:fixed;top:28%;z-index:85;
     opacity:0.16;
   }
   .nav-btn.prev{left:16px;transform:translateY(-50%)}
@@ -940,7 +943,7 @@ h1.slide-title em{font-style:italic;color:var(--gold);font-weight:300}
 .dot.active{width:24px;border-radius:3px;background:var(--lion-bright);opacity:1}
 
 .hint{
-  position:absolute;bottom:24px;right:32px;z-index:70;
+  position:absolute;bottom:52px;right:32px;z-index:70;
   font-family:var(--mono);font-size:10px;letter-spacing:0.24em;color:var(--ink-3);
   text-transform:uppercase;display:flex;gap:14px;align-items:center;
   opacity:0.5;transition:opacity 0.3s;
@@ -3007,6 +3010,7 @@ function go(i){
   slides[current].classList.remove('active');
   current=i;
   slides[current].classList.add('active');
+  slides[current].scrollTop = 0; // sempre começa do topo
 
   // update UI
   counter.textContent=String(i+1).padStart(2,'0');
@@ -3069,11 +3073,17 @@ document.addEventListener('touchend',(e)=>{
   }
 });
 
-// === Wheel — debounced ===
+// === Wheel — scroll interno primeiro, muda slide só na borda ===
 let wheelLock=false;
 document.addEventListener('wheel',(e)=>{
   if(wheelLock)return;
   if(Math.abs(e.deltaY)<30)return;
+  const activeSlide = slides[current];
+  const atBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 4;
+  const atTop = activeSlide.scrollTop <= 4;
+  // Se há conteúdo para rolar e não está na borda, deixa rolar normalmente
+  if(e.deltaY>0 && !atBottom) return;
+  if(e.deltaY<0 && !atTop) return;
   wheelLock=true;
   stopAutoplay();
   if(e.deltaY>0)go(current+1);else go(current-1);
